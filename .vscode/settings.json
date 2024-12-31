@@ -1,0 +1,6 @@
+{
+  "markdown-preview-github-styles.colorTheme": "light",
+  "workbench.colorCustomizations": {
+    "editorInfo.foreground": "#ff0000"
+  },
+}

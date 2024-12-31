@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "streetsidesoftware.code-spell-checker",
+    "bierner.markdown-preview-github-styles",
+    "github.vscode-github-actions",
+  ]
+}

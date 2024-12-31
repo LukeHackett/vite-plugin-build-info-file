@@ -1,0 +1,11 @@
+{
+  "version": "0.2",
+  "language": "en-GB",
+  "minWordLength": 3,
+  "ignorePaths": ["dist/**", "node_modules/**", "coverage/**", ".vscode/**"],
+  "dictionaries": ["softwareTerms", "typescript", "node", "npm"],
+  "words": [
+    "dts",
+    "lintstagedrc"
+  ],
+}
