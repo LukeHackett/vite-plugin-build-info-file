@@ -1,6 +1,7 @@
 import type { Plugin } from 'vite';
 
-import type { BuildInfoFilePluginConfig } from './types';
+import { createInfo } from './info';
+import type { BuildInfoFilePluginConfig, Json } from './types';
 
 const defaultBuildInfoFilePluginConfig: BuildInfoFilePluginConfig = {
   contributors: {
@@ -14,10 +15,18 @@ const defaultBuildInfoFilePluginConfig: BuildInfoFilePluginConfig = {
 
 function buildInfoFile(config: BuildInfoFilePluginConfig = defaultBuildInfoFilePluginConfig): Plugin {
   return {
-    name: 'build-info-file',
+    name: 'build-info',
     // eslint-disable-next-line sort-keys
-    async buildEnd() {
-      console.warn("'build-info-file' has not been implemented. Provided config:", config);
+    async buildEnd(error?: Error) {
+      if (!error) {
+        const infoFile: Json = await createInfo(config);
+        this.emitFile({
+          fileName: config.filename,
+          name: config.filename,
+          source: JSON.stringify(infoFile, undefined, 2),
+          type: 'asset',
+        });
+      }
     },
   };
 }
