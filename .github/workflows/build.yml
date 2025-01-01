@@ -1,0 +1,40 @@
+name: Build Project
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+      - name: Setup nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Lint the project
+        run: npm run lint
+      - name: Compile the project
+        run: npm run ts-checks
+      - name: Spellcheck the project
+        run: npm run cspell
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+      - name: Setup nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Run the test suite
+        run: npm run test
+      - name: Build the project
+        run: npm run build
