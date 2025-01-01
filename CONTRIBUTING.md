@@ -5,12 +5,12 @@ Thank you for your interest in contributing to this project! To ensure a smooth 
 ## How to Contribute
 
 1. **Fork the repository**
-   Create a personal copy of the repository by [forking it on GitHub](https://github.com/LukeHackett/vite-plugin-build-info/fork). You can make changes in your fork and submit a pull request.
+   Create a personal copy of the repository by [forking it on GitHub](https://github.com/LukeHackett/vite-plugin-build-info-file/fork). You can make changes in your fork and submit a pull request.
 
 2. **Clone your fork**
    Clone the forked repository to your local machine:
    ```bash
-   git clone https://github.com/your-username/vite-plugin-build-info.git
+   git clone https://github.com/your-username/vite-plugin-build-info-file.git
    ```
 
 3. **Create a new branch**

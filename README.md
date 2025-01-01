@@ -69,4 +69,4 @@ Please review the [Contributing Guidelines](./CONTRIBUTING.md) if you would like
 
 ## Issues
 
-If you encounter any other bugs or need some other features feel free to open an [issue](https://github.com/LukeHackett/vite-plugin-build-info/issues).
+If you encounter any other bugs or need some other features feel free to open an [issue](https://github.com/LukeHackett/vite-plugin-build-info-file/issues).

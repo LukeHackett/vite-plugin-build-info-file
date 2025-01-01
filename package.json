@@ -1,18 +1,18 @@
 {
-  "name": "vite-plugin-build-info",
+  "name": "vite-plugin-build-info-file",
   "type": "module",
   "version": "0.0.0",
   "description": "Vite plugin that generates build information and outputs it as a json file",
   "author": "Luke Hackett",
   "license": "MIT",
   "funding": "https://github.com/sponsors/LukeHackett",
-  "homepage": "https://github.com/LukeHackett/vite-plugin-build-info#readme",
+  "homepage": "https://github.com/LukeHackett/vite-plugin-build-info-file#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LukeHackett/vite-plugin-build-info.git"
+    "url": "git+https://github.com/LukeHackett/vite-plugin-build-info-file.git"
   },
   "bugs": {
-    "url": "https://github.com/LukeHackett/vite-plugin-build-info/issues"
+    "url": "https://github.com/LukeHackett/vite-plugin-build-info-file/issues"
   },
   "keywords": [
     "vite-plugin"
