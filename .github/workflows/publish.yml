@@ -34,6 +34,8 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: npm install
+      - name: Set package version
+        run: npm version from-git --no-commit-hooks --no-git-tag-version
       - name: Publish package on NPM
         run: npm publish
         env:
