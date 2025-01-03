@@ -16,12 +16,8 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install
-      - name: Lint the project
-        run: npm run lint
-      - name: Compile the project
-        run: npm run ts-checks
-      - name: Spellcheck the project
-        run: npm run cspell
+      - name: Validate the project
+        run: npm run validate
 
   test:
     runs-on: ubuntu-latest
