@@ -1,4 +1,2 @@
-npm run lint
-npm run cspell
-npm run ts-checks
+npm run validate
 npm run test
