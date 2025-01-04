@@ -5,24 +5,7 @@ on:
     types: [created]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the code
-        uses: actions/checkout@v4
-      - name: Setup nodejs
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Install dependencies
-        run: npm install
-      - name: Validate the project
-        run: npm run validate
-      - name: Build the project
-        run: npm run build
-
   publish-npm:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Check out the code
@@ -34,8 +17,12 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: npm install
+      - name: Validate the project
+        run: npm run validate
       - name: Set package version
         run: npm version from-git --no-commit-hooks --no-git-tag-version
+      - name: Build the project
+        run: npm run build
       - name: Publish package on NPM
         run: npm publish
         env:
