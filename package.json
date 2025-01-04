@@ -15,25 +15,17 @@
     "url": "https://github.com/LukeHackett/vite-plugin-build-info-file/issues"
   },
   "keywords": [
-    "vite-plugin"
+    "vite", "vite-plugin", "typescript"
   ],
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
-    }
-  },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "*.d.ts",
-    "dist"
+    "dist",
+    "src"
   ],
   "scripts": {
     "clean": "rm -rf dist coverage",
-    "start": "npm run build -- --watch",
+    "start": "tsup --watch",
     "prepare": "husky",
     "lint": "eslint . --ext .js,.cjs,.ts",
     "lint:fix": "npm run lint -- --fix",
@@ -42,10 +34,10 @@
     "validate": "npm run lint && npm run cspell && npm run ts-checks",
     "test": "vitest run --coverage",
     "test:watch": "vitest watch --coverage",
-    "build": "tsup ./src/index.ts"
+    "build": "tsup"
   },
   "peerDependencies": {
-    "vite": "5.x"
+    "vite": "^5.0.0"
   },
   "dependencies": {
     "git-last-commit": "1.0.1"
