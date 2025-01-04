@@ -46,19 +46,85 @@ npm install --save-dev vite-plugin-build-info-file
 
 ```ts
 // vite.config.js
-
 import { defineConfig } from "vite";
 import buildInfoFile from "vite-plugin-build-info-file";
 
 export default defineConfig({
-  plugins: [buildInfoFile()],
-});
+  plugins: [
+    buildInfoFile({
+      /* (optional) pass your config */
+    })
+  ]
+})
 ```
 
 ### Configuration
 
+The following configuration options can be passed the `buildInfoFile` plugin function.
+
 ```ts
-// WIP
+export type BuildInfoFilePluginConfig = {
+  /**
+   * The name of the file to be generated, defaults to 'info.json'.
+   */
+  filename?: string;
+
+  /**
+   * Key/Value pairs to be injected into the file info.json file.
+   */
+  info?: Json;
+
+  /**
+   * Configuration for each contributor. By default all contributors are enabled.
+   */
+  contributors?:
+    | {
+        git?: GitContributorConfig;
+        node?: ContributorConfig;
+        package?: ContributorConfig;
+        platform?: ContributorConfig;
+      }
+    | { [key: string]: Contributor<ContributorConfig> };
+};
+```
+
+#### Custom Contributors
+
+Besides the pre-defined contributors, it is possible to create custom contributors.
+
+Each contributor should implement the `Contributor` type, which is a function that returns a `Promise<Json>` value.
+
+An example implementation is shown below:
+
+```ts
+// vite.config.js
+import { defineConfig } from "vite";
+import buildInfoFile from "vite-plugin-build-info-file";
+
+const helloWorldContributor: Contributor<ContributorConfig> = (config: ContributorConfig): Promise<Json> => {
+  return Promise.resolve({ message: 'Hello World!' });
+}
+
+export default defineConfig({
+  plugins: [
+    buildInfoFile({
+      contributors: {
+        myContributor: helloWorldContributor
+      }
+    })
+  ]
+})
+```
+
+This will generate the following `info.json` file:
+
+```json
+{
+  "myContributor": {
+    "message": "Hello World"
+  }
+  // other contributors have been omitted
+}
 ```
 
 <!-- CONTRIBUTING -->

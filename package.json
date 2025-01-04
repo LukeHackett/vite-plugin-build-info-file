@@ -20,11 +20,12 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "scripts": {
     "clean": "rm -rf dist coverage",
-    "start": "npm run build -- --watch",
+    "start": "tsup --watch",
     "prepare": "husky",
     "lint": "eslint . --ext .js,.cjs,.ts",
     "lint:fix": "npm run lint -- --fix",
@@ -33,7 +34,7 @@
     "validate": "npm run lint && npm run cspell && npm run ts-checks",
     "test": "vitest run --coverage",
     "test:watch": "vitest watch --coverage",
-    "build": "tsup ./src/index.ts"
+    "build": "tsup"
   },
   "peerDependencies": {
     "vite": "^5.0.0"
