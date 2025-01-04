@@ -15,20 +15,11 @@
     "url": "https://github.com/LukeHackett/vite-plugin-build-info-file/issues"
   },
   "keywords": [
-    "vite-plugin"
+    "vite", "vite-plugin", "typescript"
   ],
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
-    }
-  },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "*.d.ts",
     "dist"
   ],
   "scripts": {
@@ -45,7 +36,7 @@
     "build": "tsup ./src/index.ts"
   },
   "peerDependencies": {
-    "vite": "5.x"
+    "vite": "^5.0.0"
   },
   "dependencies": {
     "git-last-commit": "1.0.1"

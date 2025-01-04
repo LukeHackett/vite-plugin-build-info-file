@@ -18,7 +18,7 @@ describe('#buildInfo', () => {
     const plugin: Plugin = buildInfoFile(emptyPluginConfig);
 
     // Then
-    expect(plugin.name).toStrictEqual('build-info');
+    expect(plugin.name).toStrictEqual('build-info-file');
   });
 
   it('should emit file when error is undefined', async () => {

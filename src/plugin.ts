@@ -15,7 +15,7 @@ const defaultBuildInfoFilePluginConfig: BuildInfoFilePluginConfig = {
 
 function buildInfoFile(config: BuildInfoFilePluginConfig = defaultBuildInfoFilePluginConfig): Plugin {
   return {
-    name: 'build-info',
+    name: 'build-info-file',
     // eslint-disable-next-line sort-keys
     async buildEnd(error?: Error) {
       if (!error) {

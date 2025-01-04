@@ -4,9 +4,6 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
   clean: true,
   dts: true,
-  external: ['vite'],
-  format: ['cjs', 'esm'],
-  sourcemap: true,
-  splitting: false,
-  target: 'node16',
+  format: ['esm'],
+  target: 'es2020',
 });
