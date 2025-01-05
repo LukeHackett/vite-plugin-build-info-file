@@ -1,6 +1,6 @@
 import { Commit, getLastCommit } from 'git-last-commit';
 
-import type { Contributor, GitContributorConfig } from '../types';
+import type { Contributor, GitContributorConfig } from '../types.ts';
 
 const GitInfoContributor: Contributor<GitContributorConfig> = (config: GitContributorConfig) => {
   return new Promise((resolve, reject) => {

@@ -1,5 +1,8 @@
-import { GitInfoContributor, NodeInfoContributor, NpmPackageInfoContributor, PlatformInfoContributor } from './contributors';
-import { BuildInfoFilePluginConfig, Contributor, Json } from './types';
+import { GitInfoContributor } from './contributors/git.ts';
+import { NodeInfoContributor } from './contributors/node.ts';
+import { NpmPackageInfoContributor } from './contributors/package.ts';
+import { PlatformInfoContributor } from './contributors/platform.ts';
+import type { BuildInfoFilePluginConfig, Contributor, Json } from './types.ts';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CONTRIBUTOR_PROVIDERS: Record<string, Contributor<any>> = {

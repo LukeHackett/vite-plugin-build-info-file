@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { ContributorConfig, Json } from '../types';
-import { NodeInfoContributor } from './node';
+import type { ContributorConfig, Json } from '../types.ts';
+import { NodeInfoContributor } from './node.ts';
 
 describe('NodeInfoContributor', () => {
   it('returns details about the node process', async () => {

@@ -1,4 +1,4 @@
-import type { Contributor, ContributorConfig } from '../types';
+import type { Contributor, ContributorConfig } from '../types.ts';
 
 const NodeInfoContributor: Contributor<ContributorConfig> = () => {
   return Promise.resolve({

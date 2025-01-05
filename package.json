@@ -1,6 +1,5 @@
 {
   "name": "vite-plugin-build-info-file",
-  "type": "module",
   "version": "0.0.0",
   "description": "Vite plugin that generates build information and outputs it as a json file",
   "author": "Luke Hackett",
@@ -15,21 +14,34 @@
     "url": "https://github.com/LukeHackett/vite-plugin-build-info-file/issues"
   },
   "keywords": [
-    "vite", "vite-plugin", "typescript"
+    "vite",
+    "vite-plugin",
+    "typescript"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "import": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "require": {
+      "types": "./dist/index.d.cts",
+      "require": "./dist/index.cjs"
+    }
+  },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "scripts": {
-    "clean": "rm -rf dist coverage",
+    "clean": "rimraf dist coverage",
     "start": "tsup --watch",
     "prepare": "husky",
-    "lint": "eslint . --ext .js,.cjs,.ts",
+    "lint": "eslint . --ext .ts",
     "lint:fix": "npm run lint -- --fix",
-    "cspell": "cspell lint \"**/**.{js,cjs,ts,md}\" --config .cspell.json --no-progress ",
+    "cspell": "cspell lint \"**/**.{ts,md}\" --config .cspell.json --no-progress",
     "ts-checks": "tsc --noEmit",
     "validate": "npm run lint && npm run cspell && npm run ts-checks",
     "test": "vitest run --coverage",
@@ -37,13 +49,13 @@
     "build": "tsup"
   },
   "peerDependencies": {
-    "vite": "^5.0.0"
+    "vite": "^5.0.0 || ^6.0.0"
   },
   "dependencies": {
     "git-last-commit": "1.0.1"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
+    "@types/node": "^22.10.5",
     "@vitest/coverage-v8": "^2.1.8",
     "cspell": "^8.17.1",
     "eslint": "^8.57.0",
@@ -55,6 +67,7 @@
     "eslint-plugin-unicorn": "^56.0.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.3.0",
+    "rimraf": "^6.0.1",
     "tsc-files": "^1.1.4",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
