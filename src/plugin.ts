@@ -6,9 +6,9 @@ import type { BuildInfoFilePluginConfig, Json } from './types.ts';
 const defaultBuildInfoFilePluginConfig: BuildInfoFilePluginConfig = {
   contributors: {
     git: { commitId: 'SHORT', enabled: true },
-    node: { enabled: false },
+    node: { enabled: true },
     package: { enabled: true },
-    platform: { enabled: false },
+    platform: { enabled: true },
   },
   filename: 'info.json',
 };

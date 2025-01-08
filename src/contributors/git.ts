@@ -9,10 +9,12 @@ const GitInfoContributor: Contributor<GitContributorConfig> = (config: GitContri
         reject(error);
       }
 
+      const commitId = config.commitId || 'SHORT';
+
       resolve({
         branch: commit.branch,
         commit: {
-          id: config.commitId === 'SHORT' ? commit.shortHash : commit.hash,
+          id: commitId === 'SHORT' ? commit.shortHash : commit.hash,
           tags: commit.tags,
           time: commit.committedOn,
         },
