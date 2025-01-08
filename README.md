@@ -58,6 +58,32 @@ export default defineConfig({
 })
 ```
 
+The default configuration will result in an `info.json` file (see example below) being emitted within the `dist` folder of your project
+
+```json
+{
+  "git": {
+    "branch": "main",
+    "commit": {
+      "id": "647b8d6",
+      "tags": [],
+      "time": "1736356630"
+    }
+  },
+  "node": {
+    "version": "v20.18.1"
+  },
+  "package": {
+    "name": "my-app",
+    "version": "1.0.0"
+  },
+  "platform": {
+    "arch": "arm64",
+    "platform": "darwin"
+  }
+}
+```
+
 ### Configuration
 
 The following configuration options can be passed the `buildInfoFile` plugin function.
