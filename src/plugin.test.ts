@@ -14,13 +14,13 @@ describe('#buildInfo', () => {
     // Given
     const createInfoSpy = vi.spyOn(Info, 'createInfo').mockResolvedValueOnce({ filename: 'test' } as Json);
 
-    const emptyPluginConfig: BuildInfoFilePluginConfig = {
+    const pluginConfig: BuildInfoFilePluginConfig = {
       filename: 'my-info-file.json',
     };
 
     const mockPluginContext = mock<Rollup.PluginContext>();
     vi.mocked(mockPluginContext.emitFile).mockImplementationOnce(() => {
-      return `/tmp/${emptyPluginConfig.filename}`;
+      return `/tmp/${pluginConfig.filename}`;
     });
 
     // When
@@ -54,13 +54,13 @@ describe('#buildInfo', () => {
 
   it('should emit file when error is undefined', async () => {
     // Given
-    const emptyPluginConfig: BuildInfoFilePluginConfig = {
+    const pluginConfig: BuildInfoFilePluginConfig = {
       filename: 'my-info-file.json',
     };
 
     const mockPluginContext = mock<Rollup.PluginContext>();
     vi.mocked(mockPluginContext.emitFile).mockImplementationOnce(() => {
-      return `/tmp/${emptyPluginConfig.filename}`;
+      return `/tmp/${pluginConfig.filename}`;
     });
 
     vi.spyOn(Info, 'createInfo').mockResolvedValueOnce({
@@ -70,15 +70,15 @@ describe('#buildInfo', () => {
     } as Json);
 
     // When
-    const plugin: Plugin = buildInfoFile(emptyPluginConfig);
+    const plugin: Plugin = buildInfoFile(pluginConfig);
     const buildEndFunction = plugin.buildEnd as (this: Rollup.PluginContext, error?: Error) => void;
     await buildEndFunction.call(mockPluginContext);
 
     // Then
     expect(mockPluginContext.emitFile).toHaveBeenCalledOnce();
     expect(mockPluginContext.emitFile).toHaveBeenCalledWith({
-      fileName: emptyPluginConfig.filename,
-      name: emptyPluginConfig.filename,
+      fileName: pluginConfig.filename,
+      name: pluginConfig.filename,
       source: JSON.stringify(
         {
           environment: 'test',
