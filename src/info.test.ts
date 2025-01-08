@@ -118,4 +118,39 @@ describe('#createInfo', () => {
     expect(await NodeInfoContributor).not.toBeCalled();
     expect(await PlatformInfoContributor).not.toBeCalled();
   });
+
+  it('should merge the provided static info when provided', async () => {
+    // Given
+    const pluginConfig: BuildInfoFilePluginConfig = {
+      info: { foo: 'bar', version: 1 },
+    };
+
+    // When
+    const response = createInfo(pluginConfig);
+
+    // Then
+    await expect(response).resolves.toStrictEqual({
+      info: { foo: 'bar', version: 1 },
+    });
+  });
+
+  it('should prioritise the provided static info over a custom contributor called "info"', async () => {
+    // Given
+    const pluginConfig: BuildInfoFilePluginConfig = {
+      contributors: {
+        info: vi.fn().mockResolvedValue(() => {
+          return { message: 'generated message' };
+        }),
+      },
+      info: { message: 'static message' },
+    };
+
+    // When
+    const response = createInfo(pluginConfig);
+
+    // Then
+    await expect(response).resolves.toStrictEqual({
+      info: { message: 'static message' },
+    });
+  });
 });
