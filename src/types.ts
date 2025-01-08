@@ -5,7 +5,7 @@ export type ContributorConfig = {
 };
 
 export type GitContributorConfig = ContributorConfig & {
-  commitId: 'SHORT' | 'LONG';
+  commitId?: 'SHORT' | 'LONG';
 };
 
 export type Contributor<T> = (config: T) => Promise<Json>;
