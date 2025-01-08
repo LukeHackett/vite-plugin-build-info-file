@@ -22,5 +22,9 @@ export const createInfo = async (config: BuildInfoFilePluginConfig): Promise<Jso
     }
   }
 
+  if (config.info) {
+    info['info'] = config.info;
+  }
+
   return info;
 };
