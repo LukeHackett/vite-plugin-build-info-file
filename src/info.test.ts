@@ -1,10 +1,16 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { GitInfoContributor, NodeInfoContributor, NpmPackageInfoContributor, PlatformInfoContributor } from './contributors';
-import { createInfo } from './info';
-import { BuildInfoFilePluginConfig } from './types';
+import { GitInfoContributor } from './contributors/git.ts';
+import { NodeInfoContributor } from './contributors/node.ts';
+import { NpmPackageInfoContributor } from './contributors/package.ts';
+import { PlatformInfoContributor } from './contributors/platform.ts';
+import { createInfo } from './info.ts';
+import type { BuildInfoFilePluginConfig } from './types.ts';
 
-vi.mock('./contributors');
+vi.mock('./contributors/git.ts');
+vi.mock('./contributors/node.ts');
+vi.mock('./contributors/package.ts');
+vi.mock('./contributors/platform.ts');
 
 describe('#createInfo', () => {
   it('should return an empty info when no contributors are provided', async () => {

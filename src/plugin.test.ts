@@ -3,9 +3,9 @@ import { Rollup } from 'vite'; // eslint-disable-line import/named
 import { describe, expect, it, vi } from 'vitest';
 import { mock } from 'vitest-mock-extended';
 
-import { createInfo } from './info';
-import { buildInfoFile } from './plugin';
-import { BuildInfoFilePluginConfig, Json } from './types';
+import { createInfo } from './info.ts';
+import { buildInfoFile } from './plugin.ts';
+import type { BuildInfoFilePluginConfig, Json } from './types.ts';
 
 vi.mock('./info');
 

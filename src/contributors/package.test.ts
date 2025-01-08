@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { ContributorConfig, Json } from '../types';
-import { NpmPackageInfoContributor } from './package';
+import type { ContributorConfig, Json } from '../types.ts';
+import { NpmPackageInfoContributor } from './package.ts';
 
 describe('NpmPackageInfoContributor', () => {
   it('returns details about the project package.json', async () => {

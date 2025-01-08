@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { ContributorConfig, Json } from '../types';
-import { PlatformInfoContributor } from './platform';
+import type { ContributorConfig, Json } from '../types.ts';
+import { PlatformInfoContributor } from './platform.ts';
 
 describe('PlatformInfoContributor', () => {
   it('returns details about the platform', async () => {

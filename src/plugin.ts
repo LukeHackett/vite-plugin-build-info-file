@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite';
 
-import { createInfo } from './info';
-import type { BuildInfoFilePluginConfig, Json } from './types';
+import { createInfo } from './info.ts';
+import type { BuildInfoFilePluginConfig, Json } from './types.ts';
 
 const defaultBuildInfoFilePluginConfig: BuildInfoFilePluginConfig = {
   contributors: {

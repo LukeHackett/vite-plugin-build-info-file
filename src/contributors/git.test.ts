@@ -1,8 +1,8 @@
 import { Commit, getLastCommit, GetLastCommitCallback } from 'git-last-commit';
 import { describe, expect, it, vi } from 'vitest';
 
-import { GitContributorConfig, Json } from '../types';
-import { GitInfoContributor } from './git';
+import type { GitContributorConfig, Json } from '../types.ts';
+import { GitInfoContributor } from './git.ts';
 
 vi.mock('git-last-commit');
 
