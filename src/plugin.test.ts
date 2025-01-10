@@ -1,111 +1,161 @@
-import type { Plugin } from 'vite';
+import type { Plugin, PluginOption, ViteDevServer } from 'vite';
 import { Rollup } from 'vite'; // eslint-disable-line import/named
-import { describe, expect, it, vi } from 'vitest';
-import { mock } from 'vitest-mock-extended';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { mockDeep } from 'vitest-mock-extended';
 
 import * as Info from './info.ts';
-import { buildInfoFile } from './plugin.ts';
+import { buildInfoFile, buildInfoFilePlugin, serveInfoFilePlugin } from './plugin.ts';
 import type { BuildInfoFilePluginConfig, Json } from './types.ts';
 
 vi.mock('./info');
 
-describe('#buildInfo', () => {
-  it('should call create info with the default config', async () => {
-    // Given
-    const createInfoSpy = vi.spyOn(Info, 'createInfo').mockResolvedValueOnce({ filename: 'test' } as Json);
+describe('plugin', () => {
+  let pluginConfig: BuildInfoFilePluginConfig;
 
-    const pluginConfig: BuildInfoFilePluginConfig = {
+  beforeEach(() => {
+    pluginConfig = {
       filename: 'my-info-file.json',
     };
+  });
 
-    const mockPluginContext = mock<Rollup.PluginContext>();
-    vi.mocked(mockPluginContext.emitFile).mockImplementationOnce(() => {
-      return `/tmp/${pluginConfig.filename}`;
+  describe('#serveInfoFilePlugin', () => {
+    it('should return the plugin\'s assigned "apply" phase', () => {
+      // When
+      const plugin: Plugin = serveInfoFilePlugin(pluginConfig);
+
+      // Then
+      expect(plugin.apply).toStrictEqual('serve');
     });
 
-    // When
-    const plugin: Plugin = buildInfoFile();
-    const buildEndFunction = plugin.buildEnd as (this: Rollup.PluginContext, error?: Error) => void;
+    it('should return the name of the plugin', () => {
+      // When
+      const plugin: Plugin = serveInfoFilePlugin(pluginConfig);
 
-    await buildEndFunction.call(mockPluginContext);
+      // Then
+      expect(plugin.name).toStrictEqual('build-info-file');
+    });
 
-    // Then
-    expect(createInfoSpy).toHaveBeenCalledWith({
-      contributors: {
-        git: { commitId: 'SHORT', enabled: true },
-        node: { enabled: true },
-        package: { enabled: true },
-        platform: { enabled: true },
-      },
-      filename: 'info.json',
+    it('should register a new route within the vite dev server', async () => {
+      // Given
+      const mockViteServer = mockDeep<ViteDevServer>();
+
+      // When
+      const plugin: Plugin = serveInfoFilePlugin();
+      const configureServerFunction = plugin.configureServer as (server: ViteDevServer) => void;
+
+      await configureServerFunction(mockViteServer);
+
+      // Then
+      expect(mockViteServer.middlewares.use).toHaveBeenCalledWith('/info.json', expect.any(Function));
     });
   });
 
-  it('should return the name of the plugin', () => {
-    // Given
-    const emptyPluginConfig: BuildInfoFilePluginConfig = {};
+  describe('#buildInfoFilePlugin', () => {
+    it('should return the plugin\'s assigned "apply" phase', () => {
+      // When
+      const plugin: Plugin = buildInfoFilePlugin(pluginConfig);
 
-    // When
-    const plugin: Plugin = buildInfoFile(emptyPluginConfig);
-
-    // Then
-    expect(plugin.name).toStrictEqual('build-info-file');
-  });
-
-  it('should emit file when error is undefined', async () => {
-    // Given
-    const pluginConfig: BuildInfoFilePluginConfig = {
-      filename: 'my-info-file.json',
-    };
-
-    const mockPluginContext = mock<Rollup.PluginContext>();
-    vi.mocked(mockPluginContext.emitFile).mockImplementationOnce(() => {
-      return `/tmp/${pluginConfig.filename}`;
+      // Then
+      expect(plugin.apply).toStrictEqual('build');
     });
 
-    vi.spyOn(Info, 'createInfo').mockResolvedValueOnce({
-      environment: 'test',
-      name: 'my-app',
-      version: '1.0.0',
-    } as Json);
+    it('should return the name of the plugin', () => {
+      // When
+      const plugin: Plugin = buildInfoFilePlugin(pluginConfig);
 
-    // When
-    const plugin: Plugin = buildInfoFile(pluginConfig);
-    const buildEndFunction = plugin.buildEnd as (this: Rollup.PluginContext, error?: Error) => void;
-    await buildEndFunction.call(mockPluginContext);
+      // Then
+      expect(plugin.name).toStrictEqual('build-info-file');
+    });
 
-    // Then
-    expect(mockPluginContext.emitFile).toHaveBeenCalledOnce();
-    expect(mockPluginContext.emitFile).toHaveBeenCalledWith({
-      fileName: pluginConfig.filename,
-      name: pluginConfig.filename,
-      source: JSON.stringify(
-        {
-          environment: 'test',
-          name: 'my-app',
-          version: '1.0.0',
+    it('should call create info with the default config', async () => {
+      // Given
+      const mockPluginContext = mockDeep<Rollup.PluginContext>();
+
+      const createInfoSpy = vi.spyOn(Info, 'createInfo').mockResolvedValueOnce({ filename: 'test' } as Json);
+
+      // When
+      const plugin: Plugin = buildInfoFilePlugin();
+      const buildEndFunction = plugin.buildEnd as (this: Rollup.PluginContext, error?: Error) => void;
+
+      await buildEndFunction.call(mockPluginContext);
+
+      // Then
+      expect(createInfoSpy).toHaveBeenCalledWith({
+        contributors: {
+          git: { commitId: 'SHORT', enabled: true },
+          node: { enabled: true },
+          package: { enabled: true },
+          platform: { enabled: true },
         },
-        undefined,
-        2,
-      ),
-      type: 'asset',
+        filename: 'info.json',
+      });
+    });
+
+    it('should emit file when error is undefined', async () => {
+      // Given
+      const mockPluginContext = mockDeep<Rollup.PluginContext>();
+
+      vi.spyOn(Info, 'createInfo').mockResolvedValueOnce({
+        environment: 'test',
+        name: 'my-app',
+        version: '1.0.0',
+      } as Json);
+
+      // When
+      const plugin: Plugin = buildInfoFilePlugin(pluginConfig);
+      const buildEndFunction = plugin.buildEnd as (this: Rollup.PluginContext, error?: Error) => void;
+      await buildEndFunction.call(mockPluginContext);
+
+      // Then
+      expect(mockPluginContext.emitFile).toHaveBeenCalledOnce();
+      expect(mockPluginContext.emitFile).toHaveBeenCalledWith({
+        fileName: pluginConfig.filename,
+        name: pluginConfig.filename,
+        source: JSON.stringify(
+          {
+            environment: 'test',
+            name: 'my-app',
+            version: '1.0.0',
+          },
+          undefined,
+          2,
+        ),
+        type: 'asset',
+      });
+    });
+
+    it('should not emit file when error is defined', async () => {
+      // Given
+      const mockPluginContext = mockDeep<Rollup.PluginContext>();
+      const error: Error = new Error('generic error message');
+
+      // When
+      const plugin: Plugin = buildInfoFilePlugin(pluginConfig);
+      const buildEndFunction = plugin.buildEnd as (this: Rollup.PluginContext, error?: Error) => void;
+      await buildEndFunction.call(mockPluginContext, error);
+
+      // Then
+      expect(mockPluginContext.emitFile).not.toHaveBeenCalled();
     });
   });
 
-  it('should not emit file when error is defined', async () => {
-    // Given
-    const emptyPluginConfig: BuildInfoFilePluginConfig = {
-      filename: 'my-info-file.json',
-    };
-    const mockPluginContext = mock<Rollup.PluginContext>();
-    const error: Error = new Error('generic error message');
+  describe('#buildInfoFilePlugin', () => {
+    it('should return two plugins', async () => {
+      // When
+      const plugin: PluginOption[] = buildInfoFile(pluginConfig) as PluginOption[];
 
-    // When
-    const plugin: Plugin = buildInfoFile(emptyPluginConfig);
-    const buildEndFunction = plugin.buildEnd as (this: Rollup.PluginContext, error?: Error) => void;
-    await buildEndFunction.call(mockPluginContext, error);
-
-    // Then
-    expect(mockPluginContext.emitFile).not.toHaveBeenCalled();
+      // Then
+      expect(plugin.length).toBe(2);
+      expect(plugin.at(0)).toStrictEqual({
+        apply: 'serve',
+        configureServer: expect.any(Function),
+        name: 'build-info-file',
+      });
+      expect(plugin.at(1)).toStrictEqual({
+        apply: 'build',
+        buildEnd: expect.any(Function),
+        name: 'build-info-file',
+      });
+    });
   });
 });
