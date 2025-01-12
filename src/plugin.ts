@@ -1,7 +1,7 @@
 import { merge } from 'ts-deepmerge';
 import type { Plugin, PluginOption, ViteDevServer } from 'vite';
 
-import { createInfo } from './info.ts';
+import { createInfo, serveInfo } from './info.ts';
 import type { BuildInfoFilePluginConfig, Json } from './types.ts';
 
 const DEFAULT_PLUGIN_CONFIG: BuildInfoFilePluginConfig = {
@@ -22,16 +22,7 @@ export function serveInfoFilePlugin(options: BuildInfoFilePluginConfig = DEFAULT
     name: 'build-info-file',
     // eslint-disable-next-line sort-keys
     configureServer(server: ViteDevServer) {
-      server.middlewares.use('/info.json', async (_request, response) => {
-        const infoFile: Json = await createInfo(config);
-        const data = JSON.stringify(infoFile, undefined, 2);
-        response
-          .writeHead(200, {
-            'Content-Length': Buffer.byteLength(data),
-            'Content-Type': 'application/json',
-          })
-          .end(data);
-      });
+      server.middlewares.use(`/${config.filename}`, serveInfo(config));
     },
   };
 }

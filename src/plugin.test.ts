@@ -39,14 +39,20 @@ describe('plugin', () => {
       // Given
       const mockViteServer = mockDeep<ViteDevServer>();
 
+      const mockServeInfoMiddleware = vi.fn();
+      vi.spyOn(Info, 'serveInfo').mockImplementation(() => {
+        return mockServeInfoMiddleware;
+      });
+
       // When
-      const plugin: Plugin = serveInfoFilePlugin();
+      const plugin: Plugin = serveInfoFilePlugin(pluginConfig);
       const configureServerFunction = plugin.configureServer as (server: ViteDevServer) => void;
 
       await configureServerFunction(mockViteServer);
 
       // Then
-      expect(mockViteServer.middlewares.use).toHaveBeenCalledWith('/info.json', expect.any(Function));
+      expect(mockViteServer.middlewares.use).toHaveBeenCalledTimes(1);
+      expect(mockViteServer.middlewares.use).toHaveBeenCalledWith('/my-info-file.json', mockServeInfoMiddleware);
     });
   });
 
