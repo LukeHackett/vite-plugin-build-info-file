@@ -1,3 +1,7 @@
+import * as http from 'node:http';
+
+import * as vite from 'vite';
+
 import { GitInfoContributor } from './contributors/git.ts';
 import { NodeInfoContributor } from './contributors/node.ts';
 import { NpmPackageInfoContributor } from './contributors/package.ts';
@@ -27,4 +31,17 @@ export const createInfo = async (config: BuildInfoFilePluginConfig): Promise<Jso
   }
 
   return info;
+};
+
+export const serveInfo = (config: BuildInfoFilePluginConfig): vite.Connect.SimpleHandleFunction => {
+  return async (_request: vite.Connect.IncomingMessage, response: http.ServerResponse) => {
+    const infoFile: Json = await createInfo(config);
+    const data = JSON.stringify(infoFile, undefined, 2);
+    response
+      .writeHead(200, {
+        'Content-Length': Buffer.byteLength(data),
+        'Content-Type': 'application/json',
+      })
+      .end(data);
+  };
 };

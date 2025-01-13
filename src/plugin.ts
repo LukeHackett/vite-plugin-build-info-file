@@ -1,7 +1,7 @@
 import { merge } from 'ts-deepmerge';
-import type { Plugin } from 'vite';
+import type { Plugin, PluginOption, ViteDevServer } from 'vite';
 
-import { createInfo } from './info.ts';
+import { createInfo, serveInfo } from './info.ts';
 import type { BuildInfoFilePluginConfig, Json } from './types.ts';
 
 const DEFAULT_PLUGIN_CONFIG: BuildInfoFilePluginConfig = {
@@ -14,13 +14,28 @@ const DEFAULT_PLUGIN_CONFIG: BuildInfoFilePluginConfig = {
   filename: 'info.json',
 };
 
-function buildInfoFile(options: BuildInfoFilePluginConfig = DEFAULT_PLUGIN_CONFIG): Plugin {
+export function serveInfoFilePlugin(options: BuildInfoFilePluginConfig = DEFAULT_PLUGIN_CONFIG): Plugin {
+  const config = merge(DEFAULT_PLUGIN_CONFIG, options);
+
   return {
+    apply: 'serve',
+    name: 'build-info-file',
+    // eslint-disable-next-line sort-keys
+    configureServer(server: ViteDevServer) {
+      server.middlewares.use(`/${config.filename}`, serveInfo(config));
+    },
+  };
+}
+
+export function buildInfoFilePlugin(options: BuildInfoFilePluginConfig = DEFAULT_PLUGIN_CONFIG): Plugin {
+  const config = merge(DEFAULT_PLUGIN_CONFIG, options);
+
+  return {
+    apply: 'build',
     name: 'build-info-file',
     // eslint-disable-next-line sort-keys
     async buildEnd(error?: Error) {
       if (!error) {
-        const config = merge(DEFAULT_PLUGIN_CONFIG, options);
         const infoFile: Json = await createInfo(config);
         this.emitFile({
           fileName: config.filename,
@@ -33,4 +48,6 @@ function buildInfoFile(options: BuildInfoFilePluginConfig = DEFAULT_PLUGIN_CONFI
   };
 }
 
-export { buildInfoFile };
+export function buildInfoFile(options: BuildInfoFilePluginConfig = DEFAULT_PLUGIN_CONFIG): PluginOption {
+  return [serveInfoFilePlugin(options), buildInfoFilePlugin(options)];
+}
