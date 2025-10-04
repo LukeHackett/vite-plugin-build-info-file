@@ -20,7 +20,7 @@ export function serveInfoFilePlugin(options: BuildInfoFilePluginConfig = DEFAULT
   return {
     apply: 'serve',
     name: 'build-info-file',
-    // eslint-disable-next-line sort-keys
+    // eslint-disable-next-line perfectionist/sort-objects
     configureServer(server: ViteDevServer) {
       server.middlewares.use(`/${config.filename}`, serveInfo(config));
     },
@@ -33,7 +33,7 @@ export function buildInfoFilePlugin(options: BuildInfoFilePluginConfig = DEFAULT
   return {
     apply: 'build',
     name: 'build-info-file',
-    // eslint-disable-next-line sort-keys
+    // eslint-disable-next-line perfectionist/sort-objects
     async buildEnd(error?: Error) {
       if (!error) {
         const infoFile: Json = await createInfo(config);
