@@ -9,11 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup nodejs
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 26
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: npm install

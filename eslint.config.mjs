@@ -1,54 +1,57 @@
 import js from '@eslint/js';
-import typescriptPlugin from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
-import importPlugin from 'eslint-plugin-import';
+import tseslint from 'typescript-eslint';
+import importX from 'eslint-plugin-import-x';
 import unicorn from 'eslint-plugin-unicorn';
-import prettierPlugin from 'eslint-plugin-prettier';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import perfectionist from 'eslint-plugin-perfectionist';
+import prettierConfig from 'eslint-config-prettier/flat';
 import globals from 'globals';
 
-/** @type {import("eslint").Linter.FlatConfig[]} */
 export default [
-  // Base ESLint recommended rules
+  // Ignore generated files and dependencies.
+  {
+    ignores: ['dist/**', 'coverage/**', 'node_modules/**'],
+  },
+
+  // Base JavaScript rules.
   js.configs.recommended,
 
+  // TypeScript rules.
   {
     files: ['**/*.ts', '**/*.tsx'],
+
     languageOptions: {
-      parser: tsParser,
+      parser: tseslint.parser,
       parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        project: './tsconfig.json',
+        projectService: true,
       },
-      // Node globals
       globals: {
         ...globals.node,
       },
     },
+
     plugins: {
-      '@typescript-eslint': typescriptPlugin,
-      import: importPlugin,
-      unicorn: unicorn,
-      prettier: prettierPlugin,
+      '@typescript-eslint': tseslint.plugin,
+      'import-x': importX,
+      unicorn,
       'simple-import-sort': simpleImportSort,
-      perfectionist: perfectionist,
+      perfectionist,
     },
+
     rules: {
-      // TypeScript rules
-      'no-unused-vars': 'off', // disable base rule
+      // TypeScript.
+      'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
           vars: 'all',
-          args: 'after-used', // report unused args only if last
-          argsIgnorePattern: '^_', // ignore _prefix args
+          args: 'after-used',
+          argsIgnorePattern: '^_',
           ignoreRestSiblings: true,
           caughtErrors: 'none',
         },
       ],
-      '@typescript-eslint/interface-name-prefix': 'off',
+
       '@typescript-eslint/no-explicit-any': [
         'error',
         {
@@ -57,27 +60,29 @@ export default [
         },
       ],
 
-      // Import rules
-      'import/no-default-export': 'error',
-      'import/no-unresolved': 'off',
-      'import/named': 'error',
+      // Imports.
+      'import-x/no-default-export': 'error',
+      'import-x/no-unresolved': 'off',
+      'import-x/named': 'error',
       'simple-import-sort/imports': 'error',
 
-      // Sorting rules
+      // Sorting.
       'sort-keys': 'off',
-      'perfectionist/sort-objects': ['error', { order: 'asc', type: 'alphabetical' }],
+      'perfectionist/sort-objects': [
+        'error',
+        {
+          order: 'asc',
+          type: 'alphabetical',
+        },
+      ],
 
-      // Style rules
-      indent: ['error', 2],
+      // Code style.
       'arrow-body-style': ['error', 'always'],
       'max-len': ['error', { code: 160 }],
-
-      // Prettier integration
-      'prettier/prettier': 'error',
     },
   },
-  {
-    // Ignore build output and node_modules
-    ignores: ['dist', 'coverage', 'node_modules'],
-  },
+
+  // Disable ESLint rules that conflict with Prettier.
+  // Keep this last.
+  prettierConfig,
 ];
