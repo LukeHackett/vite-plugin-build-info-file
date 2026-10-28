@@ -1,5 +1,5 @@
 import type { Plugin, PluginOption, ViteDevServer } from 'vite';
-import { Rollup } from 'vite'; // eslint-disable-line import/named
+import { Rollup } from 'vite'; // eslint-disable-line import-x/named
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockDeep } from 'vitest-mock-extended';
 
