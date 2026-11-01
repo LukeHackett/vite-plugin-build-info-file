@@ -31,6 +31,10 @@ updates:
       include: "scope"
     labels:
       - "dependencies"
+    ignore:
+      # Not all dependencies support TypeScript 7 yet
+      - dependency-name: "typescript"
+        versions: [">=7.0.0"]
     groups:
       dependencies:
         dependency-type: "production"
