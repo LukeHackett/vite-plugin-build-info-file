@@ -1,0 +1,12 @@
+# CODEOWNERS
+#
+# Combined with branch protection on `main` (Settings → Branches → Require
+# review from Code Owners), this enforces owner review on every change.
+#
+# Dependabot PRs: the auto-merge workflow auto-approves them as the bot before
+# calling `gh pr merge --auto`, so they satisfy this rule without blocking.
+# Human PRs always need a real review.
+#
+# Syntax: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+* @LukeHackett
