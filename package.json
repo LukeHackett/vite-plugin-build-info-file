@@ -60,22 +60,22 @@
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@types/node": "26.6.6",
-    "@vitest/coverage-v8": "5.1.0",
-    "cspell": "10.4.1",
-    "eslint": "10.14.0",
+    "@vitest/coverage-v8": "5.1.1",
+    "cspell": "10.5.2",
+    "eslint": "10.15.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import-x": "4.18.1",
-    "eslint-plugin-perfectionist": "5.13.0",
+    "eslint-plugin-perfectionist": "5.14.0",
     "eslint-plugin-prettier": "5.5.7",
     "eslint-plugin-simple-import-sort": "14.0.0",
-    "eslint-plugin-unicorn": "79.0.0",
+    "eslint-plugin-unicorn": "80.0.0",
     "husky": "9.1.7",
-    "lint-staged": "17.6.0",
+    "lint-staged": "17.6.1",
     "rimraf": "6.1.4",
     "tsdown": "0.23.7",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.72.2",
-    "vitest": "5.1.0",
-    "vitest-mock-extended": "6.0.0"
+    "typescript-eslint": "8.73.0",
+    "vitest": "5.1.1",
+    "vitest-mock-extended": "6.0.1"
   }
 }
